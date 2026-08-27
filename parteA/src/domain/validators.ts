@@ -4,8 +4,8 @@ import { EmissionInput, NormalizedEmissionInput, VehicleType } from './types';
 const SUPPORTED_VEHICLE_TYPES = Object.values(VehicleType);
 
 const MAX_EFFICIENCY_FACTOR = 5;
-const MAX_CARGO_WEIGHT_TONS = 200; // límite razonable para carga terrestre
-const MAX_DISTANCE_KM = 20000; // límite razonable de un solo trayecto
+const MAX_CARGO_WEIGHT_TONS = 200;
+const MAX_DISTANCE_KM = 20000; 
 
 function isFiniteNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value);

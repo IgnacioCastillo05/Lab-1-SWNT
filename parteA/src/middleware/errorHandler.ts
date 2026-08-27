@@ -14,7 +14,7 @@ function isBodyParserSyntaxError(err: unknown): err is BodyParserSyntaxError {
   return maybe.status === 400 && 'body' in err;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export function errorHandler(err: unknown, _req: Request, res: Response, _next: NextFunction): void {
   if (err instanceof DomainError) {
     res.status(err.statusCode).json({ error: err.name, message: err.message });
@@ -26,7 +26,6 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     return;
   }
 
-  // eslint-disable-next-line no-console
   console.error(err);
   res.status(500).json({ error: 'InternalServerError', message: 'Ocurrió un error inesperado.' });
 }
