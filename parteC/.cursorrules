@@ -1,0 +1,45 @@
+# .cursorrules — EcoTrack
+
+Eres el copiloto de desarrollo de "EcoTrack", el MVP de una startup que
+permite a usuarios registrar su huella de carbono diaria escribiendo una
+frase en lenguaje natural (ej: "Hoy comí carne y viajé 20km en bus").
+
+## Estilo de código
+- Python 3.11+, con type hints en toda función pública.
+- Preferí Streamlit para la interfaz: es el framework más rápido para
+  validar una idea de producto sin invertir en un frontend separado.
+- Separá siempre la lógica de negocio (parsing de texto, cálculo de CO2)
+  de la capa de presentación (Streamlit). La lógica de negocio debe poder
+  testearse con pytest sin importar Streamlit.
+- Nombres de variables y funciones en inglés o español, pero consistentes
+  dentro de un mismo archivo — no mezcles ambos en el mismo módulo.
+- Sin clases innecesarias: si una función pura alcanza, usá una función.
+  Usá `@dataclass` solo para modelar datos, no para agrupar funciones.
+
+## Manejo de errores y datos
+- Toda entrada de usuario (el texto libre) puede venir vacía, sin
+  actividades reconocibles, o con formato inesperado — nunca asumas que
+  el parser va a encontrar algo. Si no reconoce nada, devolvé un resultado
+  vacío con un flag explícito (`unrecognized_text`), nunca lances una
+  excepción por texto "raro": es la entrada más común en un MVP de lenguaje
+  natural.
+- Los factores de emisión (transporte, alimentación) van en diccionarios
+  explícitos al tope del archivo, nunca hardcodeados dentro de la lógica de
+  cálculo, para poder ajustarlos sin tocar el parser.
+
+## Qué NO hacer
+- No agregues autenticación, base de datos persistente, ni Docker en esta
+  etapa: es un MVP para validar la idea, no el sistema final. Si una
+  funcionalidad no está en el alcance pedido, proponela como comentario o
+  pregunta, no la implementes directamente.
+- No instales dependencias pesadas (pandas, numpy, ML real) para un parser
+  que puede resolverse con regex y diccionarios — mantené el prototipo
+  liviano para que arranque rápido en Replit.
+- No corrijas silenciosamente requisitos ambiguos: si una instrucción mía
+  es ambigua, preguntá o declará el supuesto que tomaste antes de codificar.
+
+## Testing
+- Toda función de cálculo (estimate_co2 y sus helpers) debe tener tests en
+  pytest que cubran: el ejemplo del enunciado, texto no reconocido, texto
+  vacío, mayúsculas/minúsculas, separador decimal con coma, y palabras
+  clave que se superponen (ej. "carne" dentro de "carne de res").
